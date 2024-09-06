@@ -3,6 +3,12 @@ info:
   title: Polling API
   description: This API allows users to create public polls with various response types (radio, checkbox, ranking, text, rating) via a URL structure. Polls can be programmatically generated in different languages.
   version: 1.0.0
+  contact:
+    name: Polling API Support
+    email: support@polling.com
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
 servers:
   - url: https://app.polling.com
 
