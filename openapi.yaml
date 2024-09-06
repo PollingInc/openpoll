@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: Polling API
+  description: This API allows users to create public polls with various response types (radio, checkbox, ranking, text, rating) via a URL structure. Polls can be programmatically generated in different languages.
+  version: 1.0.0
+servers:
+  - url: https://app.polling.com
+
+paths:
+  /quick-poll:
+    get:
+      summary: Create a poll
+      description: Generates a public poll with various question and answer types.
+      parameters:
+        - name: qTitle
+          in: query
+          required: true
+          description: The title of the poll question
+          schema:
+            type: string
+            example: "What's your favorite color?"
+        - name: qDesc
+          in: query
+          required: false
+          description: An optional description for the poll
+          schema:
+            type: string
+            example: "Select the color that best fits your personality."
+        - name: type
+          in: query
+          required: true
+          description: Type of the question (e.g., radio, checkbox, ranking, text, rating)
+          schema:
+            type: string
+            enum:
+              - radio
+              - checkbox
+              - ranking
+              - text
+              - rating
+            example: radio
+        - name: a
+          in: query
+          required: false
+          description: Answer options for the poll. Can be repeated multiple times by using the `a` parameter multiple times (e.g., `&a=Red&a=Blue&a=Green`).
+          schema:
+            type: array
+            items:
+              type: string
+            example: 
+              - "Red"
+              - "Blue"
+              - "Green"
+          style: form
+          explode: true
+      responses:
+        '200':
+          description: Poll URL successfully generated
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/html
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "https://app.polling.com/quick-poll?qTitle=What's+your+favorite+color&type=radio&a=Red&a=Blue&a=Green"
+        '400':
+          description: Invalid input parameters
